@@ -2,6 +2,7 @@ package main
 
 import (
 	"centralize-authentication-go/src/controller/authentication"
+	apiError "centralize-authentication-go/src/controller/error"
 	"centralize-authentication-go/src/middleware"
 	"log"
 	"net/http"
@@ -30,6 +31,11 @@ func main() {
 	auth := router.Group("/auth")
 	{
 		auth.POST("", authentication.LoginRoute)
+	}
+
+	routeError := router.Group("/error")
+	{
+		routeError.GET("/bad-request", apiError.BadRequest)
 	}
 
 	err := router.Run()
